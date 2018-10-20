@@ -29,3 +29,30 @@ def rotate(img, angle, center=None, scale=1.0):
 
     # return the rotated image
     return rotated_img
+
+
+def resize(image, resized_width=None, resized_height=None, inter=cv2.INTER_AREA):
+    # initialize the dimensions of the image to be resized and
+    # get the image size
+    (height, width) = image.shape[:2]
+
+    # if both the width and height are None, then return the
+    # original image
+    if resized_width is None and resized_height is None:
+        return image
+
+    if resized_width is None:
+        # calculate the ratio of the height and construct the
+        # dimensions
+        ratio = resized_height / float(height)
+        dim = (int(width * ratio), resized_height)
+    else:
+        # calculate the ratio of the width and construct the
+        # dimensions
+        ratio = resized_width / float(width)
+        dim = (resized_width, int(height * ratio))
+
+    # resize the image
+    resized = cv2.resize(image, dim, interpolation=inter)
+
+    return resized
