@@ -13,6 +13,10 @@
 
 import numpy as np
 import cv2
+import os
+
+
+valid_exts = ('.jpg', '.jpeg', '.png', '.bmp', '.tif', '.tiff')
 
 
 def rotate(img, angle, center=None, scale=1.0):
@@ -56,3 +60,25 @@ def resize(image, resized_width=None, resized_height=None, inter=cv2.INTER_AREA)
     resized = cv2.resize(image, dim, interpolation=inter)
 
     return resized
+
+
+def list_files(base_path, valid_exts=valid_exts, contains=None):
+    # Loop over the directory
+    for (root_dir, dir_names, file_names) in os.walk(base_path):
+        # Loop over the file names in the current directory
+        for fn in file_names:
+            if contains is not None and fn.find(contains) == -1:
+                continue
+
+            # Determine the file extension of the current file
+            ext = fn[fn.rfind('.'):].lower()
+
+            # Check to see if the file is an image and should be processed
+            if ext.endswith(valid_exts):
+                image_path = os.path.join(root_dir, fn).replace(' ', '\\ ')
+                yield image_path
+
+
+# List all images in a directory
+def list_images(base_path, contains=None):
+    return list_files(base_path, valid_exts=valid_exts, contains=contains)
