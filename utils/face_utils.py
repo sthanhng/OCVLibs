@@ -72,3 +72,23 @@ def compare_faces(known_face_encodings, face_encoding_to_check, tolerance=0.6):
 
     return list(face_distance(known_face_encodings, face_encoding_to_check)
                 <= tolerance)
+
+
+def shape_to_points(shape, dtype="int"):
+    """
+    Convert the landmark (x, y)-coordinates to a NumPy array
+    :param shape: The list of landmarks (x, y)--coordinates
+    :param dtype: Type of the landmarks (x, y)--coordinates
+    :return: A Numpy array contains facial landmarks
+    """
+
+    # Initialize the list of (x, y)-coordinates
+    points = np.zeros((shape.num_parts, 2), dtype=dtype)
+
+    # Loop over all facial landmarks and convert them
+    # to a 2-tuple of (x, y)-coordinates
+    for i in range(0, shape.num_parts):
+        points[i] = (shape.part(i).x, shape.part(i).y)
+
+    # Return the list of (x, y)-coordinates
+    return points
