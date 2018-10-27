@@ -185,3 +185,27 @@ def to_rgb(img):
     ret[:, :, 0] = ret[:, :, 1] = ret[:, :, 2] = img
 
     return ret
+
+
+def crop(image, random_crop, image_size):
+    """
+    Crop the image with or w/o random
+    :param image: The image need to be cropped
+    :param random_crop: True or False
+    :param image_size: The cropped image
+    :return:
+    """
+
+    if image.shape[1] > image_size:
+        sz1 = int(image.shape[1] // 2)
+        sz2 = int(image_size // 2)
+        if random_crop:
+            diff = sz1 - sz2
+            (h, v) = (np.random.randint(-diff, diff + 1),
+                      np.random.randint(-diff, diff + 1))
+        else:
+            (h, v) = (0, 0)
+        image = image[(sz1 - sz2 + v):(sz1 + sz2 + v),
+                (sz1 - sz2 + h):(sz1 + sz2 + h), :]
+
+    return image
