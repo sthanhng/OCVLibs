@@ -157,3 +157,31 @@ def build_montages(image_list, image_shape, montage_shape):
         image_montages.append(montage_image)  # add unfinished montage
 
     return image_montages
+
+
+def flip(image, random_flip):
+    """
+    Flip the image
+    :param image: The image to flip
+    :param random_flip:
+    :return: The flipped image
+    """
+
+    if random_flip and np.random.choice([True, False]):
+        image = np.fliplr(image)
+
+    return image
+
+
+def to_rgb(img):
+    """
+    Convert an image to color space RGB
+    :param img: The image need to be converted
+    :return: The converted image
+    """
+
+    width, height = img.shape
+    ret = np.empty((width, height, 3), dtype=np.uint8)
+    ret[:, :, 0] = ret[:, :, 1] = ret[:, :, 2] = img
+
+    return ret
